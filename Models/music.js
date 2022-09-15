@@ -58,6 +58,14 @@ const trackSchema = new Schema(
         prix: {
             type: Number,
             required: true
+        },
+
+        urlTrack: {
+            type: String,
+        },
+
+        urlImg: {
+            type: String,
         }
     },
 

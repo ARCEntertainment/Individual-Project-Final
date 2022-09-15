@@ -6,6 +6,7 @@
 //todo _______________________________
 const { Schema, model, Types} = require('mongoose')
 const Music = require('./music')
+const Artist = require('./artist')
 
 
 

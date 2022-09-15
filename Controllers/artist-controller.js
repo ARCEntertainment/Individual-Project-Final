@@ -5,6 +5,7 @@
 //todo imported MODELS (Artist)
 //todo ___________________________________
 const Artist = require('../Models/artist')
+const { PORT } = process.env
 
 
 
@@ -25,7 +26,10 @@ const artistControllers = {
         // Structure FIND
         const artistALL = await Artist.find()
 
-        res.status(200).jason(artistALL)
+        const data = {'artist': artistALL}
+
+
+        res.status(200).json(data)
     },
 
 
@@ -53,7 +57,16 @@ const artistControllers = {
 
     creat: async (req, res) => {
 
-        const artistADD = Artist(req.body)
+        const { name, land, bio } = req.body
+
+        console.log('After insert Back-End :', req.file);
+
+        const artistADD = Artist({
+            name,
+            land,
+            bio,
+            avatar: `http://localhost:${PORT}/Artist/${req.file.filename}`
+        })
 
         await artistADD.save()
         res.status(200).json(artistADD)

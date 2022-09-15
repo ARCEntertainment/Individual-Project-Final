@@ -1,0 +1,12 @@
+{
+    "name": "Techno Test",
+    "durée": 350,
+    "info": "C'est un teste pour voire",
+    "link": [{
+        "artistId": "6320459759131186cdae44eb"
+    }],
+    "genre": "Techno",
+    "prix": 1.50
+    
+
+}

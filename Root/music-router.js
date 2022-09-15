@@ -26,7 +26,7 @@ trackRouter.get('/', trackController.getALL)
 
 trackRouter.get('/:id', trackController.getById)
 
-trackRouter.post('/', bodyValidator(musicValidator), trackController.creat)
+trackRouter.post('/', trackController.creat)
 
 trackRouter.delete('/:id', trackController.delete)
 

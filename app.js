@@ -37,6 +37,11 @@ server.use(cors(/* >>Add Config to<< */))
 server.use(express.json())
 
 
+//! /!\ MiddleWare (Utilisation dossier Public => DB) // => 'localhost:8580/nomFichier...
+server.use(express.static('Public'))
+
+
+
 
 
 //todo 3) ROOT Definitive

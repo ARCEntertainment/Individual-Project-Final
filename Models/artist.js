@@ -29,6 +29,10 @@ const artistSchema = new Schema(
             required: true,
             trim: true
         },
+
+        avatar: {
+            type: String
+        }
     },
 
     // OPTION

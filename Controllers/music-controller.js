@@ -18,10 +18,39 @@ const Track = require('../Models/music')
 const trackController = {
     
     getALL: async (req, res) => {
-        
-        const trackAll = await Track.find()
 
-        res.status(200).json(trackAll)
+        // Offset and Limit Declaration
+        const offset = req.query.offset ? req.query.offset : 0
+        const limit = req.query.limit ? req.query.limit : 5
+
+
+        // Filter Creation
+        let musicFilters;
+        const musics = req.query.name
+
+        // Structure Musics Find
+        if (musics) {
+            
+            musicFilters = {musics: {$in: musics}}
+        }
+        musicFilters = {}
+        
+
+        //* Structure Tracks FIND
+        const trackAll = await Track.find(musicFilters)
+
+        .populate({
+            path: "link.artistId",
+            select: {name: 1}
+        })
+
+        .limit(limit)
+        .skip(offset)
+
+        const count = await Track.countDocuments()
+        const data = {'music': trackAll, count}
+
+        res.status(200).json(data)
     },
 
 
