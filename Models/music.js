@@ -64,7 +64,7 @@ const trackSchema = new Schema(
             type: String,
         },
 
-        urlImg: {
+        cover: {
             type: String,
         }
     },

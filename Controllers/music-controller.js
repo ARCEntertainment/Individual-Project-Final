@@ -21,27 +21,33 @@ const trackController = {
 
         // Offset and Limit Declaration
         const offset = req.query.offset ? req.query.offset : 0
-        const limit = req.query.limit ? req.query.limit : 5
+        const limit = req.query.limit ? req.query.limit : 0
 
 
         // Filter Creation
-        let musicFilters;
-        const musics = req.query.name
+        
+        let musicSearchFilters
+        
+        const search = req.query.search
 
         // Structure Musics Find
-        if (musics) {
+        if (search) {
             
-            musicFilters = {musics: {$in: musics}}
+            musicSearchFilters = {$or : [{'link.artistId.name': search}, {genre: search}]}  
         }
-        musicFilters = {}
+        else
+        musicSearchFilters = {}
+
+
         
 
         //* Structure Tracks FIND
-        const trackAll = await Track.find(musicFilters)
+        const trackAll = await Track.find()
 
         .populate({
             path: "link.artistId",
-            select: {name: 1}
+            select: {name: 1, land: 1, bio: 1, avatar: 1}
+
         })
 
         .limit(limit)
