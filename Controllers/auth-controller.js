@@ -23,11 +23,12 @@ const authController = {
 
         //* TOOLS
         //* --------------------------------------
-        const { credential, password } = req.body
+        const { password, email } = req.body
 
-        const credentialFilters = { $or: [{ email: credential }, { pseudo: credential }] }
+        // const credentialFilters = { $or: [{ email: credential }, { pseudo: credential }] }
 
-        const users = await User.findOne(credentialFilters)
+        // const users = await User.findOne(credentialFilters)
+        const users = await User.findOne({email})
 
 
         //* STRUCTURE

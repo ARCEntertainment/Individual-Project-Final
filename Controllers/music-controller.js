@@ -4,6 +4,7 @@
 
 //todo imported MODELS (Music)
 const Track = require('../Models/music')
+const { PORT } = process.env
 
 
 //todo CONTROLLER Music configuration
@@ -16,7 +17,7 @@ const Track = require('../Models/music')
 // D = Delete
 
 const trackController = {
-    
+
     getALL: async (req, res) => {
 
         // Offset and Limit Declaration
@@ -25,42 +26,42 @@ const trackController = {
 
 
         // Filter Creation
-        
+
         let musicSearchFilters
-        
+
         const search = req.query.search
 
         // Structure Musics Find
         if (search) {
-            
-            musicSearchFilters = {$or : [{'link.artistId.name': search}, {genre: search}]}  
+
+            musicSearchFilters = { $or: [{ 'link.artistId.name': search }, { genre: search }] }
         }
         else
-        musicSearchFilters = {}
+            musicSearchFilters = {}
 
 
-        
+
 
         //* Structure Tracks FIND
         const trackAll = await Track.find()
 
-        .populate({
-            path: "link.artistId",
-            select: {name: 1, land: 1, bio: 1, avatar: 1}
+            .populate({
+                path: "link.artistId",
+                select: { name: 1, land: 1, bio: 1, avatar: 1 }
 
-        })
+            })
 
-        .limit(limit)
-        .skip(offset)
+            .limit(limit)
+            .skip(offset)
 
         const count = await Track.countDocuments()
-        const data = {'music': trackAll, count}
+        const data = { 'music': trackAll, count }
 
         res.status(200).json(data)
     },
 
 
-//* ------------------------------------------------------
+    //* ------------------------------------------------------
 
     getById: async (req, res) => {
         const id = req.params.id
@@ -74,11 +75,26 @@ const trackController = {
     },
 
 
-//* ------------------------------------------------------
+    //* ------------------------------------------------------
 
     creat: async (req, res) => {
 
-        const trackADD = Track(req.body)
+        const { name, durée, info, link, label, genre, prix, urlTrack } = req.body
+
+        console.log('After insert Back-end :', req.file);
+
+        // const trackADD = Track(req.body)
+        const trackADD = Track({
+            name,
+            durée,
+            info,
+            link,
+            label,
+            genre,
+            prix,
+            urlTrack,
+            cover: `http:localhost:${PORT}/Music/Cover/${req.file.filename}`
+        })
 
         await trackADD.save()
 
@@ -86,11 +102,11 @@ const trackController = {
     },
 
 
-//* ------------------------------------------------------
+    //* ------------------------------------------------------
 
     delete: async (req, res) => {
 
-        const id = req.params.id 
+        const id = req.params.id
 
         const trackDelete = await Track.findByIdAndDelete(id)
 

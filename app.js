@@ -4,7 +4,7 @@
 //todo 1) Initialising Project BASE
 //todo ______________________________
 require('dotenv-flow').config();
-const { MESSAGE, NODE_ENV, PORT, DB_CONNECTION} = process.env;
+const { MESSAGE, NODE_ENV, PORT, DB_CONNECTION, EMAIL, EMAIL_PASSWORD} = process.env;
 console.log('Connected To : ', NODE_ENV, ' : ', MESSAGE);
 
 
@@ -31,6 +31,9 @@ const server = express()
 //! Gestion error CORS
 const cors = require('cors')
 server.use(cors(/* >>Add Config to<< */))
+
+//! Node Mailer for email
+const nodeMailer = require('nodemailer')
 
 
 //! /!\ First MiddleWare (a metre en premier)
@@ -68,3 +71,54 @@ server.use('/api', router)
 server.listen(PORT, () => {
     console.log(`SERVER UP ON PORT : ${PORT} - ${NODE_ENV}`);
 })
+
+
+
+//todo ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//todo Configuration Mail 
+
+// const contactEmail = nodeMailer.createTransport({
+
+//     service: 'gmail',
+//     auth: {
+//         user: {EMAIL},
+//         pass: {EMAIL_PASSWORD},
+
+//     },
+
+// })
+
+// contactEmail.verify((error) => {
+
+//     if (error) {
+//         console.log(error);
+//     }
+//     else {
+//         console.log("Sending...");
+//     }
+// })
+
+// //* Router Email Config 
+// // ------------------------
+
+// router.post("/contact", (req, res) => {
+//     const name = req.body.name;
+//     const email = req.body.email;
+//     const message = req.body.message; 
+//     const mail = {
+//         from: name,
+//         to: {EMAIL},
+//         subject: "Contact Form Submission",
+//         html:  `<p>Name: ${name}</p>
+//                 <p>Email: ${email}</p>
+//                 <p>Message: ${message}</p>`,
+//     };
+
+//     contactEmail.sendMail(mail, (error) => {
+//         if (error) {
+//             res.json({ status: "ERROR" });
+//         } else {
+//             res.json({ status: "Message Sent" });
+//         }
+//         });
+//     });
