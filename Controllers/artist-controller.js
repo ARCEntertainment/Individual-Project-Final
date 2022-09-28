@@ -4,7 +4,9 @@
 
 //todo imported MODELS (Artist)
 //todo ___________________________________
+// 1- une variable contenant les donné du Schema artist dans le modele
 const Artist = require('../Models/artist')
+// 2- cette variable detien le port utilisé pour l'acces a la DB via les variable d'environement c'est une securité
 const { PORT } = process.env
 
 
@@ -19,16 +21,23 @@ const { PORT } = process.env
 // D = Delete
 
 
+// Creation de l'objet artistControl qui contien les fonction utile 
 const artistControllers = {
 
+    // ceci est la fonction Asynchrone qui permet de recupérer toute les donné de la collection Artist
+    // elle detien comme parametre Requete et Resolution
     getALL: async (req, res) => {
 
-        // Structure FIND
+        // creation de variable detenant l'ensemble de toute les donné de la collection Artist
+        //elle utilise la Methode FIND
         const artistALL = await Artist.find()
 
+        // j'initialise une variable DATA nomé Artist qui contient l'ensemble des donnée contenue dans la variable artistALL
         const data = {'artist': artistALL}
 
 
+        // enfin j'utilise le parametre resolution en lui precisant le Status code 200 et je recupère un fichier format json avec 
+        // les donné recupérer dans DATA
         res.status(200).json(data)
     },
 
